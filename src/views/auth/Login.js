@@ -6,14 +6,14 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  Checkbox,
   Link,
-  Text
+  Text,
 } from "@chakra-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import * as yup from 'yup';
 
 export default function Login() {
+
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -22,9 +22,7 @@ export default function Login() {
     password: yup
       .string()
       .required()
-      .min(3, 'Seems a bit short...')
-    // .matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$","Minimum eight characters, at least one letter and one number"),
-    ,
+      .min(3, 'Seems a bit short...'),
     agreeToTerms: yup
       .boolean()
       .test(
@@ -35,7 +33,7 @@ export default function Login() {
   });
   return (
     <>
-    <Text fontSize="4xl">Log in to your account</Text>
+      <Text fontSize="4xl">Log in to your account</Text>
       <Formik
         validateOnChange={true}
         initialValues={{ email: "", password: "", agreeToTerms: true }}
@@ -46,7 +44,6 @@ export default function Login() {
           setTimeout(() => {
             console.log("submit: ", data);
             setSubmitting(false);
-
           }, 1000);
         }}>
 
@@ -55,7 +52,7 @@ export default function Login() {
             <Field name="email">
               {({ field, form }) => {
                 return (
-                  <FormControl isInvalid={form.errors.email && form.touched.email} isRequired>
+                  <FormControl isInvalid={form.errors.email && form.touched.email}>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input {...field} id="email" placeholder="Email address" />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
@@ -66,7 +63,7 @@ export default function Login() {
             <Field name="password">
               {({ field, form }) => {
                 return (
-                  <FormControl isInvalid={form.errors.password && form.touched.password} isRequired>
+                  <FormControl isInvalid={form.errors.password && form.touched.password}>
                     <FormLabel htmlFor="password">Password</FormLabel>
                     <Input {...field} type="password" id="password" placeholder="Enter password" />
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
