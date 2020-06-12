@@ -1,18 +1,14 @@
 import React from 'react';
 import { ThemeProvider, CSSReset, ColorModeProvider, } from '@chakra-ui/core';
 import customTheme from "./theme";
-import { Divider } from "@chakra-ui/core";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import Register from './views/auth/Register';
 import Login from './views/auth/Login';
-import Home from './views/layout/Home';
-import DarkMode from './components/DarkMode'
-
+import Dashboard from './views/layout/Dashboard';
 import './App.css';
 
 
@@ -21,22 +17,7 @@ function App() {
     <ThemeProvider theme={customTheme}>
       <ColorModeProvider>
         <CSSReset />
-        <DarkMode />
         <Router>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/register">Register</Link>
-              </li>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-            </ul>
-          </nav>
-          <Divider />
           <Switch>
             <Route path="/register">
               <Register />
@@ -45,7 +26,7 @@ function App() {
               <Login />
             </Route>
             <Route path="/">
-              <Home />
+              <Dashboard />
             </Route>
           </Switch>
         </Router>

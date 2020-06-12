@@ -1,0 +1,53 @@
+.dashboard-container {
+    background: url("../../assets/bg.svg") no-repeat;
+    background-position: 0% -30%;
+    background-attachment: fixed;
+}
+
+.grad-bg {
+    height: 200px;
+    width: 100%;
+    background-size: auto;
+}
+
+.dash-cta {
+    width: 250px;
+    height: 160px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.orange-grad {
+    background: linear-gradient(0deg, #F64B28, #E78B13);
+}
+
+.green-grad {
+    background: linear-gradient(0deg, #00B16F, #5FFE9E);
+}
+
+.dash-cta-text1,
+.dash-cta-text2 {
+    font-weight: 600;
+    color: #fff;
+}
+
+.dash-cta-text1 {
+    margin-top: 10px;
+}
+
+.dash-cta-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    margin-top: -100px;
+}
+
+.dash-leaderboard-link {
+    margin-top: 10px;
+    text-align: center;
+}

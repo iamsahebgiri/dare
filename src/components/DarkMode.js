@@ -1,13 +1,10 @@
 import React from 'react'
-import { Button, useColorMode } from "@chakra-ui/core";
+import { IconButton, useColorMode } from "@chakra-ui/core";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 export default function DarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <div>
-      <Button size="sm" onClick={toggleColorMode}>
-        Toggle {colorMode === "light" ? "Dark" : "Light"}
-      </Button>
-    </div>
-  )
+    const { colorMode, toggleColorMode } = useColorMode();
+    return (
+        <IconButton onClick={toggleColorMode} size="sm" aria-label="Search database" icon={colorMode === "light" ? FiMoon : FiSun} />
+    )
 }
