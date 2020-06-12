@@ -64,7 +64,7 @@ export default function Dashboard() {
 
       </div>
       <div className="dash-leaderboard-link">
-        <Link as={RouterLink} to="/home">
+        <Link as={RouterLink} to="/leaderboard">
           Check global leaderboard
         </Link>
       </div>
