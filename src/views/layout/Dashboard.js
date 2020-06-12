@@ -8,8 +8,11 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
       <div className="grad-bg">
-        <Flex align="center" justify="space-between" mr={5} ml={5}>
-          <h1>Quiz<span>.</span></h1>
+        <Flex align="center" justify="space-between" p={5}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="79" height="24" viewBox="0 0 79 24">
+            <text id="Harami." transform="translate(0 19)" fill="#fff" fontSize="20" fontFamily="SFUIText-Bold, SF UI Text" fontWeight="700"><tspan x="0" y="0">Harami</tspan><tspan y="0" fill="#f50000">.</tspan></text>
+          </svg>
+
           <Flex>
             <DarkMode />
             <Avatar size="sm" ml={4} />
