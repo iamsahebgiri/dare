@@ -8,6 +8,7 @@ import FilePondPluginImageResize from "filepond-plugin-image-resize";
 import FilePondPluginImageTransform from "filepond-plugin-image-transform";
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import "./OnBoarding.css";
+import "../../App.css";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageCrop,FilePondPluginImageResize, FilePondPluginImageTransform,);
@@ -17,7 +18,11 @@ export default function OnBoarding() {
   const [files,setFiles] = useState([]);
   return (
     <div className="onboarding-container">
-      <div className="onboarding-heading"> Choose profile picture </div>
+      <div className="onboarding-heading"> 
+      <div></div> 
+      <div>Choose profile picture</div>
+      <div></div>
+      </div>
       <div className="add-profile-picture">
         <FilePond
           files={files}

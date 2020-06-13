@@ -4,76 +4,29 @@
   align-items: center;
 }
 .onboarding-heading {
+  display: flex;
+  justify-content: space-between;
   font-weight: 700;
   color: #fff;
   text-align: center;
-  padding-top: 20px;
-  height: 300px;
+  padding:20px;
+  height: 200px;
   width: 100%;
   background: url("../../assets/bg.svg") no-repeat;
   background-position: 0% -30%;
   background-attachment: fixed;
 }
 
-.btn {
-  width: 90vw;
-  display: inline-block;
-  font-weight: 700;
-  text-align: center;
-  outline: none;
-  border: none;
-  transition: background-color 0.1s ease-out;
-  border-radius: 6px;
-  padding: 0.65rem 1.3rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: -0.008em;
-  vertical-align: baseline;
-  white-space: nowrap;
-  color: #42526e;
-  background-color: rgba(9, 30, 66, 0.04);
-  cursor: pointer;
-}
-
-/* Button primary */
-.btn-primary {
-  margin-top:6px;
-  color: #fff;
-  background: linear-gradient(90deg, #8053E4,#4B61EB);
-}
-.btn-primary:hover {
-  color: #fff;
-  background: linear-gradient(90deg, #8053E4,#4B61EB);
-}
-.btn-primary:active {
-  color: #fff;
-  background: linear-gradient(90deg, #8053E4,#4B61EB);
-}
-
-/* Button secondary */
-.btn-secondary {
-  color: #8053e4;
-  background-color: #E8DEFF;
-}
-.btn-secondary:hover {
-  color: #8053e4;
-  background-color: #E8DEFF;
-}
-.btn-secondary:active {
-  color: #8053e4;
-  background-color: #E8DEFF;
-}
-
-.btn-group {
-  width: 100%;
-  position: absolute;
-  bottom: 10px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
 .add-profile-picture{
   margin-top: -30px;
   height: 170px;
   width: 170px;
 }
+@media only screen and (min-width: 900px) {
+  .onboarding-heading{
+    background: url("../../assets/bg.svg") no-repeat;
+    background-size: cover;
+    background-position-y: -100px;
+  }
+}
+
