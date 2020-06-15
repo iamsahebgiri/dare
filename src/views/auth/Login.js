@@ -32,8 +32,8 @@ export default function Login() {
       ),
   });
   return (
-    <>
-      <Text fontSize="4xl">Log in to your account</Text>
+    <div className="container">
+      <Text fontSize="3xl" fontWeight="bold" mb={2}>Log in</Text>
       <Formik
         validateOnChange={true}
         initialValues={{ email: "", password: "", agreeToTerms: true }}
@@ -74,7 +74,7 @@ export default function Login() {
 
             <Button
               mt={4}
-              variantColor="blue"
+              variantColor="purple"
               isLoading={isSubmitting}
               type="submit"
             >
@@ -87,13 +87,13 @@ export default function Login() {
 
         )}
       </Formik>
-      <Text>
+      <Text mt={4} textAlign="center">
         Don't have an account?{" "}
 
-        <Link as={RouterLink} color="teal.500" to="/register">
+        <Link as={RouterLink} color="purple.500" to="/register">
           Create account
       </Link>
       </Text>
-    </>
+    </div>
   );
 }

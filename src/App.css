@@ -39,3 +39,6 @@
   align-items: center;
   flex-direction: column;
 }
+.container {
+  padding: 12px;
+}

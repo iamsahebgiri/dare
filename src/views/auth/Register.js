@@ -34,8 +34,8 @@ export default function Register() {
       ),
   });
   return (
-    <>
-      <Text fontSize="4xl">Create account</Text>
+    <div className="container">
+      <Text fontSize="3xl" fontWeight="bold" mb={2}>Create account</Text>
       <Formik
         validateOnChange={true}
         initialValues={{ email: "", password: "", agreeToTerms: true }}
@@ -55,7 +55,7 @@ export default function Register() {
             <Field name="email">
               {({ field, form }) => {
                 return (
-                  <FormControl isInvalid={form.errors.email && form.touched.email} isRequired>
+                  <FormControl isInvalid={form.errors.email && form.touched.email} isRequired variantColor="purple">
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input {...field} id="email" placeholder="Email address" />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
@@ -77,8 +77,8 @@ export default function Register() {
             <Field>
               {({ field, form }) => {
                 return (
-                  <FormControl isInvalid={form.errors.agreeToTerms && form.touched.agreeToTerms}>
-                    <Checkbox name="agreeToTerms" isChecked={field.value.agreeToTerms} onChange={form.handleChange} onBlur={form.handleBlur} defaultIsChecked isFullWidth isInvalid={!field.value.agreeToTerms}>I agree to the terms and coditions.</Checkbox>
+                  <FormControl mt={4} isInvalid={form.errors.agreeToTerms && form.touched.agreeToTerms}>
+                    <Checkbox name="agreeToTerms" isChecked={field.value.agreeToTerms} onChange={form.handleChange} onBlur={form.handleBlur} defaultIsChecked isFullWidth isInvalid={!field.value.agreeToTerms} variantColor="purple">I agree to the terms and coditions.</Checkbox>
                     <FormErrorMessage>{form.errors.agreeToTerms}</FormErrorMessage>
                   </FormControl>
                 )
@@ -86,12 +86,11 @@ export default function Register() {
 
               }
             </Field>
-
-            <br />
+              {/* <p>By signing up I agree to the terms and condtions. </p> */}
 
             <Button
               mt={4}
-              variantColor="blue"
+              variantColor="purple"
               isLoading={isSubmitting}
               type="submit"
             >
@@ -104,13 +103,13 @@ export default function Register() {
 
         )}
       </Formik>
-      <Text>
+      <Text mt={4} textAlign="center">
         Already have an account?{" "}
 
-        <Link as={RouterLink} color="teal.500" to="/login">
+        <Link as={RouterLink} color="purple.500" to="/login">
           Log in
       </Link>
       </Text>
-    </>
+    </div>
   );
 }

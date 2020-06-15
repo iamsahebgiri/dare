@@ -10,11 +10,20 @@ const customTheme = {
   },
   colors: {
     ...theme.colors,
-    brand: {
-      900: "#1a365d",
-      800: "#153e75",
-      700: "#2a69ac",
+    brand:
+    {
+      "50": '#e6edff',
+      100: '#b9c7fb',
+      200: '#8b9df3',
+      300: '#5e72ed',
+      400: '#3256e7',
+      500: '#1a48ce',
+      600: '#1242a1',
+      700: '#0b3774',
+      800: '#052648',
+      900: '#01101d',
     },
+
   }
 }
 export default customTheme;
