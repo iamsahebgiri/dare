@@ -46,9 +46,13 @@ function App() {
               <ReadQuiz />
             </Route>
             
-            <Route path="/">
+            <Route exact path="/">
               <Dashboard />
             </Route>
+            <Route path="/">
+              Error 404, Not Found
+            </Route>
+
           </Switch>
         </Router>
       </ColorModeProvider>

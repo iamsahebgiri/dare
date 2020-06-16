@@ -1,19 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Field, Form } from 'formik';
 import {
   Button,
   Input,
   FormControl,
   FormLabel,
+  InputGroup,
+  InputRightElement,
   FormErrorMessage,
   Checkbox,
   Link,
-  Text
+  Text,
+  useToast
 } from "@chakra-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import * as yup from 'yup';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+
+
 
 export default function Register() {
+  const toast = useToast();
+
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show);
+
+  const createUser = useStoreActions(actions => actions.user.createUser);
+  const error = useStoreState(state => state.user.error);
+  const authData = useStoreState(state => state.user.authData);
+
+
+  useEffect(() => {
+    if (Object.keys(error).length !== 0) {
+      toast({
+        title: "An error occurred.",
+        description: error.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+    if (Object.keys(authData).length !== 0) {
+      toast({
+        title: "Action created.",
+        description: "We've created your account for you.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+
+  })
+
+
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -22,9 +61,7 @@ export default function Register() {
     password: yup
       .string()
       .required()
-      .min(3, 'Seems a bit short...')
-    // .matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$","Minimum eight characters, at least one letter and one number"),
-    ,
+      .min(4, 'Seems a bit short...'),
     agreeToTerms: yup
       .boolean()
       .test(
@@ -33,6 +70,8 @@ export default function Register() {
         value => value === true
       ),
   });
+
+
   return (
     <div className="container">
       <Text fontSize="3xl" fontWeight="bold" mb={2}>Create account</Text>
@@ -42,12 +81,8 @@ export default function Register() {
         validationSchema={validationSchema}
         onSubmit={(data, { setSubmitting }) => {
           setSubmitting(true);
-          // make async call
-          setTimeout(() => {
-            console.log("submit: ", data);
-            setSubmitting(false);
-
-          }, 1000);
+          createUser(data);
+          setSubmitting(false);
         }}>
 
         {({ values, errors, isSubmitting }) => (
@@ -57,7 +92,7 @@ export default function Register() {
                 return (
                   <FormControl isInvalid={form.errors.email && form.touched.email} isRequired variantColor="purple">
                     <FormLabel htmlFor="email">Email</FormLabel>
-                    <Input {...field} id="email" placeholder="Email address" />
+                    <Input {...field} id="email" placeholder="Email address" focusBorderColor="purple.500" />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                   </FormControl>
                 )
@@ -68,7 +103,21 @@ export default function Register() {
                 return (
                   <FormControl isInvalid={form.errors.password && form.touched.password} isRequired>
                     <FormLabel htmlFor="password">Password</FormLabel>
-                    <Input {...field} type="password" id="password" placeholder="Enter password" />
+                    <InputGroup size="md">
+                      <Input
+                        {...field}
+                        focusBorderColor="purple.500"
+                        pr="4.5rem"
+                        type={show ? "text" : "password"}
+                        placeholder="Enter password"
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button h="1.75rem" size="sm" onClick={handleClick}>
+                          {show ? "Hide" : "Show"}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                    {/* <Input {...field} type="password" id="password" placeholder="Enter password" /> */}
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )
@@ -86,7 +135,6 @@ export default function Register() {
 
               }
             </Field>
-              {/* <p>By signing up I agree to the terms and condtions. </p> */}
 
             <Button
               mt={4}
@@ -96,8 +144,6 @@ export default function Register() {
             >
               Register
           </Button>
-            {/* <pre>{JSON.stringify(values, null, 2)}</pre>
-          <pre>{JSON.stringify(errors, null, 2)}</pre> */}
           </Form>
 
 
