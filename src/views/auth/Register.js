@@ -43,13 +43,13 @@ export default function Register() {
     }
     if (Object.keys(authData).length !== 0) {
       toast({
-        title: "Action created.",
+        title: "Account created.",
         description: "We've created your account for you.",
         status: "success",
         duration: 9000,
         isClosable: true,
       });
-      browserHistory.push("/");
+      browserHistory.push("/onboarding");
     }
 
   })
@@ -58,12 +58,12 @@ export default function Register() {
   const validationSchema = yup.object({
     email: yup
       .string()
-      .email()
-      .required(),
+      .email("Email must be valid email")
+      .required("Email is a required field"),
     password: yup
       .string()
-      .required()
-      .min(4, 'Seems a bit short...'),
+      .required("Password is a required field")
+      .min(6, 'Must be more than 6 charracters'),
     agreeToTerms: yup
       .boolean()
       .test(
@@ -84,7 +84,9 @@ export default function Register() {
         onSubmit={(data, { setSubmitting }) => {
           setSubmitting(true);
           createUser(data);
-          setSubmitting(false);
+          if (Object.keys(authData).length !== 0) {
+            setSubmitting(false);
+          }
         }}>
 
         {({ values, errors, isSubmitting }) => (
@@ -92,7 +94,7 @@ export default function Register() {
             <Field name="email">
               {({ field, form }) => {
                 return (
-                  <FormControl isInvalid={form.errors.email && form.touched.email} isRequired variantColor="purple">
+                  <FormControl isInvalid={form.errors.email && form.touched.email} isRequired>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input {...field} id="email" placeholder="Email address" focusBorderColor="purple.500" />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>

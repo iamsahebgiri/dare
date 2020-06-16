@@ -22,6 +22,14 @@
   height: 170px;
   width: 170px;
 }
+.fullname-form{
+  width: 90vw;
+
+}
+.btn-continue {
+  position: absolute;
+  bottom: 10px;
+}
 @media only screen and (min-width: 900px) {
   .onboarding-heading{
     background: url("../../assets/bg.svg") no-repeat;

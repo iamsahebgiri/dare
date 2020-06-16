@@ -23,13 +23,6 @@ export default function Login() {
       .string()
       .required()
       .min(3, 'Seems a bit short...'),
-    agreeToTerms: yup
-      .boolean()
-      .test(
-        'is-true',
-        'Must agree to terms to continue',
-        value => value === true
-      ),
   });
   return (
     <div className="container">
@@ -54,7 +47,7 @@ export default function Login() {
                 return (
                   <FormControl isInvalid={form.errors.email && form.touched.email}>
                     <FormLabel htmlFor="email">Email</FormLabel>
-                    <Input {...field} id="email" placeholder="Email address" />
+                    <Input {...field} id="email" placeholder="Email address" focusBorderColor="purple.500" />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                   </FormControl>
                 )
@@ -65,7 +58,7 @@ export default function Login() {
                 return (
                   <FormControl isInvalid={form.errors.password && form.touched.password}>
                     <FormLabel htmlFor="password">Password</FormLabel>
-                    <Input {...field} type="password" id="password" placeholder="Enter password" />
+                    <Input {...field} type="password" id="password" placeholder="Enter password" focusBorderColor="purple.500" />
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )

@@ -15,16 +15,24 @@ import ReadQuiz from "./views/quiz/ReadQuiz";
 import Profile from "./views/user/Profile";
 import Leaderboard from "./views/user/Leaderboard";
 import './App.css';
-
+import { auth } from "./config/firebaseConfig";
+import { useStoreActions } from 'easy-peasy';
 
 function App() {
+  const setUserData = useStoreActions(actions => actions.user.setUserData);
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      setUserData(user);
+    }
+  })
+
   return (
     <ThemeProvider theme={customTheme}>
       <ColorModeProvider>
         <CSSReset />
         <Router>
           <Switch>
-          <Route path="/register">
+            <Route path="/register">
               <Register />
             </Route>
             <Route path="/login">
@@ -45,7 +53,7 @@ function App() {
             <Route path="/show">
               <ReadQuiz />
             </Route>
-            
+
             <Route exact path="/">
               <Dashboard />
             </Route>

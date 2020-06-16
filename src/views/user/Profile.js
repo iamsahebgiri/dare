@@ -32,7 +32,7 @@ export default function Profile() {
       </div>
       <div className="btn-group">
         <Link as={RouterLink} to="/">
-          <button className="btn btn-primary">Back</button>
+          <button className="btn btn-primary">Logout</button>
         </Link>
       </div>
     </div>
