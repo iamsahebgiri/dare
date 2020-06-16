@@ -8,11 +8,15 @@ import {
   FormErrorMessage,
   Link,
   Text,
+  useToast,
 } from "@chakra-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 import * as yup from 'yup';
+import { auth } from "./../../config/firebaseConfig";
 
 export default function Login() {
+  const toast = useToast();
+  let browserHistory = useHistory();
 
   const validationSchema = yup.object({
     email: yup
@@ -29,15 +33,32 @@ export default function Login() {
       <Text fontSize="3xl" fontWeight="bold" mb={2}>Log in</Text>
       <Formik
         validateOnChange={true}
-        initialValues={{ email: "", password: "", agreeToTerms: true }}
+        initialValues={{ email: "", password: ""}}
         validationSchema={validationSchema}
-        onSubmit={(data, { setSubmitting }) => {
+        onSubmit={({email, password}, { setSubmitting }) => {
           setSubmitting(true);
-          // make async call
-          setTimeout(() => {
-            console.log("submit: ", data);
+          auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            toast({
+              title: "Logged in",
+              description: "You are successfully logged in",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+            browserHistory.push("/");
+
+          })
+          .catch(function(error) {
             setSubmitting(false);
-          }, 1000);
+            toast({
+              title: "An error occurred.",
+              description: error.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          });
         }}>
 
         {({ values, errors, isSubmitting }) => (

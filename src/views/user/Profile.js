@@ -1,14 +1,17 @@
 import React from 'react';
-import { Avatar, IconButton, useColorMode, Link } from "@chakra-ui/core";
+import { Avatar, IconButton, useColorMode, Link, useToast } from "@chakra-ui/core";
 import { FiChevronLeft } from "react-icons/fi";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 import "./Profile.css";
 import DarkMode from '../../components/DarkMode';
+import { auth } from "./../../config/firebaseConfig";
 
 export default function Profile() {
   const { colorMode } = useColorMode();
   const color = { light: "gray.800", dark: "white" };
-
+  let browserHistory = useHistory();
+  const toast = useToast();
+  
   return (
     <div className="onboarding-container">
       <div className="onboarding-heading">
@@ -27,14 +30,24 @@ export default function Profile() {
         <span>Christian Nwamba</span>
       </div>
       <div>
-       Rank: 30
-       Points: 230
+        Content goes here
       </div>
       <div className="btn-group">
-        <Link as={RouterLink} to="/">
-          <button className="btn btn-primary">Logout</button>
-        </Link>
+        <button onClick={() => {
+          auth.signOut().then(function () {
+            toast({
+              title: "Logged out",
+              description: "You are successfully logged out.",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+            browserHistory.push("/login");
+          }).catch(function (error) {
+            // An error happened.
+          });
+        }} className="btn btn-primary">Logout</button>
       </div>
-    </div>
+    </div >
   )
 }
