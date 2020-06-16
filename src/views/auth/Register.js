@@ -13,7 +13,7 @@ import {
   Text,
   useToast
 } from "@chakra-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 import * as yup from 'yup';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 
@@ -29,6 +29,7 @@ export default function Register() {
   const error = useStoreState(state => state.user.error);
   const authData = useStoreState(state => state.user.authData);
 
+  let browserHistory = useHistory();
 
   useEffect(() => {
     if (Object.keys(error).length !== 0) {
@@ -48,6 +49,7 @@ export default function Register() {
         duration: 9000,
         isClosable: true,
       });
+      browserHistory.push("/");
     }
 
   })
