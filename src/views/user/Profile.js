@@ -72,8 +72,7 @@ class ProfileClass extends React.Component {
     if (this._isMounted) {
       auth.signOut().then(function () {
         console.log("Signed out successfully....")
-        
-        return <Redirect to="/login" />
+
       }).catch(function (error) {
         console.log(error)
       });
@@ -81,10 +80,9 @@ class ProfileClass extends React.Component {
 
   }
   render() {
+    if(auth.currentUser == null) return <Redirect to="/login" />
     return (
-      <>
         <Profile handleLogout={this.handleLogout} displayName={this.state.displayName} photoURL={this.state.photoURL} />
-      </>
     );
   }
 
