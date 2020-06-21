@@ -9,7 +9,7 @@ import "./CreateQuiz.css";
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { auth } from '../../config/firebaseConfig';
 
-export default function CreateQuiz() {
+function FuncCreateQuiz() {
   const { colorMode } = useColorMode();
   const color = { light: "gray.800", dark: "white" };
   const optionColor = { light: { background: "white" }, dark: { background: "rgba(255,255,255,0.08" } };
@@ -155,3 +155,13 @@ export default function CreateQuiz() {
     </Formik>
   )
 }
+
+export default class CreateQuiz extends React.Component {
+  render() {
+    if (auth.currentUser == null) return <Redirect to="/login" />
+    return (
+      <FuncCreateQuiz />
+    )
+  }
+}
+
