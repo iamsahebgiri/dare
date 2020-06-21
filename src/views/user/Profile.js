@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, IconButton, useColorMode, Link } from "@chakra-ui/core";
 import { FiChevronLeft } from "react-icons/fi";
-import { Link as RouterLink, Redirect } from "react-router-dom";
+import { Link as RouterLink, Redirect, withRouter } from "react-router-dom";
 import "./Profile.css";
 import DarkMode from '../../components/DarkMode';
 import { auth } from "./../../config/firebaseConfig";
@@ -9,7 +9,6 @@ import { auth } from "./../../config/firebaseConfig";
 function Profile({ displayName, photoURL, handleLogout }) {
   const { colorMode } = useColorMode();
   const color = { light: "gray.800", dark: "white" };
-
   return (
     <div className="onboarding-container">
       <div className="onboarding-heading">
@@ -44,7 +43,7 @@ class ProfileClass extends React.Component {
     this.state = {
       displayName: "Loading...",
       photoURL: "",
-      isAuthenticated: false
+      isAuthenticated: false,
     }
 
     this.handleLogout = this.handleLogout.bind(this);
@@ -58,7 +57,8 @@ class ProfileClass extends React.Component {
           this.setState({
             displayName: user.displayName,
             photoURL: user.photoURL,
-            isAuthenticated: true
+            isAuthenticated: true,
+            firedLogout: false
           })
         }
       })
@@ -72,7 +72,7 @@ class ProfileClass extends React.Component {
     if (this._isMounted) {
       auth.signOut().then(function () {
         console.log("Signed out successfully....")
-
+        this.props.history.push("/login");
       }).catch(function (error) {
         console.log(error)
       });
@@ -80,12 +80,12 @@ class ProfileClass extends React.Component {
 
   }
   render() {
-    if(auth.currentUser == null) return <Redirect to="/login" />
+    if (auth.currentUser == null) return <Redirect to="/login" />
     return (
-        <Profile handleLogout={this.handleLogout} displayName={this.state.displayName} photoURL={this.state.photoURL} />
+      <Profile firedLogout={this.state.firedLogout} handleLogout={this.handleLogout} displayName={this.state.displayName} photoURL={this.state.photoURL} />
     );
   }
 
 }
 
-export default ProfileClass;
+export default withRouter(ProfileClass);

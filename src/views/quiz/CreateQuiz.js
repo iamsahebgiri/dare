@@ -1,7 +1,7 @@
 import React from 'react';
 import DarkMode from '../../components/DarkMode';
 import { IconButton, Link, useColorMode, Textarea, Stack, Input, Select, Divider, Flex, FormControl, FormErrorMessage } from "@chakra-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import { FiChevronLeft } from "react-icons/fi";
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
