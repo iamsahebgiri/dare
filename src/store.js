@@ -3,12 +3,16 @@ import { auth, db } from "./config/firebaseConfig";
 
 const quizModel = {
   quizName: '',
+  noOfQuestions: 5,
   data: [],
   setQuizName: action((state, payload) => {
     state.quizName = payload;
   }),
+  setNoOfQuestions: action((state, payload) => {
+    state.noOfQuestions = payload;
+  }),
   setQuizData: action((state, payload) => {
-    state.quizName.push(payload);
+    state.data.push(payload);
   }),
 }
 

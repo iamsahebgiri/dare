@@ -26,12 +26,17 @@ function FuncDashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   let browserHistory = useHistory();
   const setQuizName = useStoreActions(actions => actions.quiz.setQuizName);
+  const setNoOfQuestions = useStoreActions(actions => actions.quiz.setNoOfQuestions);
   const validationSchema = yup.object({
     quizName: yup
       .string()
-      .required("Dare Name is a required field")
+      .required("Dare Name is a required field"),
+    no: yup
+      .number("No of questions mist be anumber")
+      .max(20)
+      .required("No of questions is a required field")
   });
-  
+
   return (
     <div className="dashboard-container">
       <div className="grad-bg">
@@ -53,11 +58,12 @@ function FuncDashboard() {
           <ModalContent>
             <Formik
               validateOnChange={true}
-              initialValues={{ quizName: "" }}
+              initialValues={{ quizName: "", no: 5 }}
               validationSchema={validationSchema}
-              onSubmit={({ quizName }, { setSubmitting }) => {
+              onSubmit={({ quizName, no }, { setSubmitting }) => {
                 setSubmitting(true);
                 setQuizName(quizName);
+                setNoOfQuestions(no)
                 setSubmitting(false)
                 browserHistory.push('/create')
               }}>
@@ -78,8 +84,19 @@ function FuncDashboard() {
                           </FormControl>
                         )
                       }}
-                    </Field> 
-                    </ModalBody>
+                    </Field>
+                    <Field name="no">
+                      {({ field, form }) => {
+                        return (
+                          <FormControl isInvalid={form.errors.no && form.touched.no} isRequired>
+                            <FormLabel htmlFor="no">No of questions</FormLabel>
+                            <Input {...field} id="no" type="number" placeholder="5" focusBorderColor="purple.500" />
+                            <FormErrorMessage>{form.errors.no}</FormErrorMessage>
+                          </FormControl>
+                        )
+                      }}
+                    </Field>
+                  </ModalBody>
                   <ModalFooter>
                     <Button mt={4}
                       variantColor="purple"
@@ -147,7 +164,7 @@ function FuncDashboard() {
 
 export default class Dashboard extends React.Component {
   render() {
-    if(auth.currentUser == null) return <Redirect to="/login" />
+    if (auth.currentUser == null) return <Redirect to="/login" />
     return (
       <FuncDashboard />
     )

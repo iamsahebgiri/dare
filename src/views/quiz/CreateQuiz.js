@@ -6,11 +6,15 @@ import { FiChevronLeft } from "react-icons/fi";
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
 import "./CreateQuiz.css";
+import { useStoreState, useStoreActions } from 'easy-peasy';
+import { auth } from '../../config/firebaseConfig';
 
 export default function CreateQuiz() {
   const { colorMode } = useColorMode();
   const color = { light: "gray.800", dark: "white" };
   const optionColor = { light: { background: "white" }, dark: { background: "rgba(255,255,255,0.08" } };
+  const { data, noOfQuestions } = useStoreState(state => state.quiz);
+  const setQuizData = useStoreActions(actions => actions.quiz.setQuizData);
 
   const validationSchema = yup.object({
     question: yup
@@ -33,17 +37,22 @@ export default function CreateQuiz() {
       .required("Answer is required"),
   });
 
+  function handleFirestoreSubmit(e) {
+    e.preventDefault();
+    console.log(data)
+    console.log(auth.currentUser)
+  }
   return (
 
     <Formik
       validateOnChange={true}
       initialValues={{ question: "", optionA: "", optionB: "", optionC: "", optionD: "", answer: "" }}
       validationSchema={validationSchema}
-      onSubmit={(data, { setSubmitting }) => {
+      onSubmit={(data, { setSubmitting, resetForm }) => {
         setSubmitting(true);
-        console.log(data);
-        setSubmitting(false)
-
+        setQuizData(data)
+        resetForm({});
+        setSubmitting(false);
       }}>
       {({ values, errors, isSubmitting, handleBlur, handleChange }) => (
         <Form>
@@ -55,90 +64,90 @@ export default function CreateQuiz() {
                     <IconButton isRound="true" size="sm" icon={FiChevronLeft} color={color[colorMode]} />
                   </Link>
                 </div>
-                <div className="quiz-title">1</div>
+                <div className="quiz-title">{(data.length === noOfQuestions) ? "Submit your quiz now" : data.length + 1}</div>
                 <div>
                   <DarkMode />
                 </div>
               </div>
-              <div className="quiz-question-wrapper">
-                <div className="quiz-questions-container" style={optionColor[colorMode]}>
-                  <Field name="question">
-                    {({ field, form }) => (
-                      <FormControl isInvalid={form.errors.question && form.touched.question} isRequired>
-                        <Textarea
-                          {...field}
-                          id="question"
-                          placeholder="Eg. Shakt launda of our class?"
-                          focusBorderColor="purple.500"
-                          width="80vw"
-                        />
-                        <FormErrorMessage>{form.errors.question}</FormErrorMessage>
-                      </FormControl>
-                    )}
+              {(data.length === noOfQuestions) ? null :
+                <div className="quiz-question-wrapper">
+                  <div className="quiz-questions-container" style={optionColor[colorMode]}>
+                    <Field name="question">
+                      {({ field, form }) => (
+                        <FormControl isInvalid={form.errors.question && form.touched.question} isRequired>
+                          <Textarea
+                            {...field}
+                            id="question"
+                            placeholder="Eg. Shakt launda of our class?"
+                            focusBorderColor="purple.500"
+                            width="80vw"
+                          />
+                          <FormErrorMessage>{form.errors.question}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                  </div>
+                  <div className="fake-quiz-container" style={optionColor[colorMode]}></div>
+                </div>}
+            </div>
+            {(data.length === noOfQuestions) ? null :
+              <div className="quiz-options">
+                <p>Fill out all options below</p>
+                <Stack spacing={3} width="90%" mt={4}>
+                  <Field name="optionA">
+                    {({ field, form }) => {
+                      return (
+                        <FormControl isInvalid={form.errors.optionA && form.touched.optionA} isRequired mb={3}>
+                          <Input {...field} id="optionA" placeholder="Eg. Prakash" focusBorderColor="purple.500" />
+                          <FormErrorMessage>{form.errors.optionA}</FormErrorMessage>
+                        </FormControl>
+                      )
+                    }}
                   </Field>
-                </div>
-                <div className="fake-quiz-container" style={optionColor[colorMode]}></div>
-              </div>
-            </div>
-            <div className="quiz-options">
-              <p>Fill out all options below</p>
-              <Stack spacing={3} width="90%" mt={4}>
-                <Field name="optionA">
-                  {({ field, form }) => {
-                    return (
-                      <FormControl isInvalid={form.errors.optionA && form.touched.optionA} isRequired mb={3}>
-                        <Input {...field} id="optionA" placeholder="Eg. Prakash" focusBorderColor="purple.500" />
-                        <FormErrorMessage>{form.errors.optionA}</FormErrorMessage>
-                      </FormControl>
-                    )
-                  }}
-                </Field>
-                <Field name="optionB">
-                  {({ field, form }) => {
-                    return (
-                      <FormControl isInvalid={form.errors.optionB && form.touched.optionB} isRequired mb={3}>
-                        <Input {...field} id="optionB" placeholder="Eg. Rahul" focusBorderColor="purple.500" />
-                        <FormErrorMessage>{form.errors.optionB}</FormErrorMessage>
-                      </FormControl>
-                    )
-                  }}
-                </Field>
-                <Field name="optionC">
-                  {({ field, form }) => {
-                    return (
-                      <FormControl isInvalid={form.errors.optionC && form.touched.optionC} isRequired mb={3}>
-                        <Input {...field} id="optionC" placeholder="Eg. Prakash" focusBorderColor="purple.500" />
-                        <FormErrorMessage>{form.errors.optionC}</FormErrorMessage>
-                      </FormControl>
-                    )
-                  }}
-                </Field>
-                <Field name="optionD">
-                  {({ field, form }) => {
-                    return (
-                      <FormControl isInvalid={form.errors.optionD && form.touched.optionD} isRequired mb={3}>
-                        <Input {...field} id="optionD" placeholder="Eg. Prakash" focusBorderColor="purple.500" />
-                        <FormErrorMessage>{form.errors.optionD}</FormErrorMessage>
-                      </FormControl>
-                    )
-                  }}
-                </Field>
+                  <Field name="optionB">
+                    {({ field, form }) => {
+                      return (
+                        <FormControl isInvalid={form.errors.optionB && form.touched.optionB} isRequired mb={3}>
+                          <Input {...field} id="optionB" placeholder="Eg. Rahul" focusBorderColor="purple.500" />
+                          <FormErrorMessage>{form.errors.optionB}</FormErrorMessage>
+                        </FormControl>
+                      )
+                    }}
+                  </Field>
+                  <Field name="optionC">
+                    {({ field, form }) => {
+                      return (
+                        <FormControl isInvalid={form.errors.optionC && form.touched.optionC} isRequired mb={3}>
+                          <Input {...field} id="optionC" placeholder="Eg. Prakash" focusBorderColor="purple.500" />
+                          <FormErrorMessage>{form.errors.optionC}</FormErrorMessage>
+                        </FormControl>
+                      )
+                    }}
+                  </Field>
+                  <Field name="optionD">
+                    {({ field, form }) => {
+                      return (
+                        <FormControl isInvalid={form.errors.optionD && form.touched.optionD} isRequired mb={3}>
+                          <Input {...field} id="optionD" placeholder="Eg. Prakash" focusBorderColor="purple.500" />
+                          <FormErrorMessage>{form.errors.optionD}</FormErrorMessage>
+                        </FormControl>
+                      )
+                    }}
+                  </Field>
 
-                <Divider />
-                <Select name="answer" placeholder="Select answer" focusBorderColor="purple.500" value={values.answer}
-                  onChange={handleChange}
-                  onBlur={handleBlur}>
-                  <option value="1">Option A</option>
-                  <option value="2">Option B</option>
-                  <option value="3">Option C</option>
-                  <option value="4">Option D</option>
-                </Select>
-              </Stack>
-
-            </div>
+                  <Divider />
+                  <Select name="answer" placeholder="Select answer" focusBorderColor="purple.500" value={values.answer}
+                    onChange={handleChange}
+                    onBlur={handleBlur}>
+                    <option value="1">Option A</option>
+                    <option value="2">Option B</option>
+                    <option value="3">Option C</option>
+                    <option value="4">Option D</option>
+                  </Select>
+                </Stack>
+              </div>}
             <Flex alignItems="center" justifyContent="center" mt={4} mb={4} flexDirection="column">
-              <button className="btn-secondary btn" type="submit">Add</button>
-              <button className="btn-primary btn" type="submit">Submit</button>
+              {(data.length === noOfQuestions) ? <button className="btn-primary btn" onClick={(e) => handleFirestoreSubmit(e)}>Submit</button> : <button className="btn-secondary btn" type="submit">Add</button>}
             </Flex>
           </div>
         </Form>
