@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Field, Form } from 'formik';
 import {
   Button,
@@ -13,10 +13,21 @@ import {
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import * as yup from 'yup';
 import { auth } from "./../../config/firebaseConfig";
-
+import { useStoreActions } from "easy-peasy";
 export default function Login() {
   const toast = useToast();
   let browserHistory = useHistory();
+  const setUser = useStoreActions(actions => actions.user.setUser);
+
+  useEffect(() => {
+    console.log('Login.js fired...')
+    const authListener = auth.onAuthStateChanged(u => {
+      if (u) {
+        setUser(u);
+      }
+    });
+    return () => authListener();
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const validationSchema = yup.object({
     email: yup
@@ -33,32 +44,32 @@ export default function Login() {
       <Text fontSize="3xl" fontWeight="bold" mb={2}>Log in</Text>
       <Formik
         validateOnChange={true}
-        initialValues={{ email: "", password: ""}}
+        initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
-        onSubmit={({email, password}, { setSubmitting }) => {
+        onSubmit={({ email, password }, { setSubmitting }) => {
           setSubmitting(true);
           auth.signInWithEmailAndPassword(email, password)
-          .then(() => {
-            toast({
-              title: "Logged in",
-              description: "You are successfully logged in",
-              status: "success",
-              duration: 9000,
-              isClosable: true,
+            .then(() => {
+              toast({
+                title: "Logged in",
+                description: "You are successfully logged in",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+              });
+              setSubmitting(false);
+              browserHistory.push("/");
+            })
+            .catch(function (error) {
+              setSubmitting(false);
+              toast({
+                title: "An error occurred.",
+                description: error.message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
             });
-            browserHistory.push("/");
-
-          })
-          .catch(function(error) {
-            setSubmitting(false);
-            toast({
-              title: "An error occurred.",
-              description: error.message,
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-            });
-          });
         }}>
 
         {({ values, errors, isSubmitting }) => (

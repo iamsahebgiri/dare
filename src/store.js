@@ -2,14 +2,21 @@ import { action, thunk } from "easy-peasy";
 import { auth, db } from "./config/firebaseConfig";
 
 const quizModel = {
+  quizName: '',
+  data: [],
+  setQuizName: action((state, payload) => {
+    state.quizName = payload;
+  }),
+  setQuizData: action((state, payload) => {
+    state.quizName.push(payload);
+  }),
 }
 
 const userModel = {
   updateData: {},
-  userData: {},
+  user: {},
   authData: {},
   error: {},
-  success: {},
   createUser: thunk((actions, { fullName, email, password }) => {
     // authentication
     auth.createUserWithEmailAndPassword(email, password)
@@ -44,21 +51,6 @@ const userModel = {
         actions.setError(error);
       });
   }),
-  setError: action((state, payload) => {
-    state.error = payload;
-  }),
-  setSuccess: action((state, payload) => {
-    state.success = payload;
-  }),
-  setAuthData: action((state, payload) => {
-    state.authData = payload;
-  }),
-  setUserData: action((state, payload) => {
-    state.userData = payload;
-  }),
-  setUpdateData: action((state, payload) => {
-    state.updateData = payload;
-  }),
   updateProfile: thunk((actions, payload) => {
     const user = auth.currentUser;
 
@@ -69,9 +61,15 @@ const userModel = {
       actions.setError(error);
     });
   }),
-
-
-
+  setError: action((state, payload) => {
+    state.error = payload;
+  }),
+  setUser: action((state, payload) => {
+    state.user = payload;
+  }),
+  setUpdateData: action((state, payload) => {
+    state.updateData = payload;
+  }),
 }
 const storeModel = {
   quiz: quizModel,

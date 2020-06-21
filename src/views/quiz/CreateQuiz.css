@@ -1,16 +1,15 @@
-.quiz-container {
-  background: url("../../assets/bg.svg") no-repeat;
-  background-position: 0% -5%;
-  background-attachment: fixed;
+.quiz-top {
+  padding-bottom: 20px;
+  background: linear-gradient(0deg, #4B61EB, #8053e4);
 }
 .quiz-question-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  padding-top: 10px;
 }
 .quiz-questions-container {
-  height:140px;
+  height: 140px;
   padding: 10px 30px;
   border-radius: 8px;
   width: 90vw;
@@ -37,7 +36,7 @@
   text-align: right;
   font-size: 14px;
   font-weight: 600;
-  color: #7E53E4;
+  color: #7e53e4;
 }
 .quiz-header {
   display: flex;
@@ -46,7 +45,7 @@
   padding: 10px;
 }
 .quiz-options {
-  margin-top: 50px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

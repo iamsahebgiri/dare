@@ -6,7 +6,6 @@ import "./Profile.css";
 import "./Leaderboard.css";
 import DarkMode from '../../components/DarkMode';
 
-
 export default function Leaderboard() {
   const { colorMode } = useColorMode();
   const color = { light: "gray.800", dark: "white" };

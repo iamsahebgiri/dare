@@ -28,7 +28,6 @@ function OnBoarding({
   onRequestClear,
   defaultFiles = [],
 }) {
-
   const setUpdateData = useStoreActions(actions => actions.user.setUpdateData);
   const updateData = useStoreState(state => state.user.updateData);
   const toast = useToast();

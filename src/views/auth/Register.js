@@ -134,10 +134,7 @@ export default function Register() {
                     <Checkbox name="agreeToTerms" isChecked={field.value.agreeToTerms} onChange={form.handleChange} onBlur={form.handleBlur} defaultIsChecked isFullWidth isInvalid={!field.value.agreeToTerms} variantColor="purple">I agree to the terms and coditions.</Checkbox>
                     <FormErrorMessage>{form.errors.agreeToTerms}</FormErrorMessage>
                   </FormControl>
-                )
-              }
-
-              }
+                )}}
             </Field>
 
             <Button

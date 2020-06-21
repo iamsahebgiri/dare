@@ -15,17 +15,8 @@ import ReadQuiz from "./views/quiz/ReadQuiz";
 import Profile from "./views/user/Profile";
 import Leaderboard from "./views/user/Leaderboard";
 import './App.css';
-import { auth } from "./config/firebaseConfig";
-import { useStoreActions } from 'easy-peasy';
 
 function App() {
-  const setUserData = useStoreActions(actions => actions.user.setUserData);
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      setUserData(user);
-    }
-  })
-
   return (
     <ThemeProvider theme={customTheme}>
       <ColorModeProvider>
@@ -58,9 +49,8 @@ function App() {
               <Dashboard />
             </Route>
             <Route path="/">
-              Error 404, Not Found
+              <h1> Error 404, Not Found</h1>
             </Route>
-
           </Switch>
         </Router>
       </ColorModeProvider>
