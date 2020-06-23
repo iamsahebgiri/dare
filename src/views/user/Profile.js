@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, IconButton, useColorMode, Link } from "@chakra-ui/core";
 import { FiChevronLeft } from "react-icons/fi";
-import { Link as RouterLink, Redirect, withRouter } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import "./Profile.css";
 import DarkMode from '../../components/DarkMode';
 import { auth } from "./../../config/firebaseConfig";
@@ -72,7 +72,6 @@ class ProfileClass extends React.Component {
     if (this._isMounted) {
       auth.signOut().then(function () {
         console.log("Signed out successfully....")
-        this.props.history.push("/login");
       }).catch(function (error) {
         console.log(error)
       });
@@ -88,4 +87,4 @@ class ProfileClass extends React.Component {
 
 }
 
-export default withRouter(ProfileClass);
+export default ProfileClass;
