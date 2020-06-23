@@ -74,6 +74,9 @@ const userModel = {
   setUpdateData: action((state, payload) => {
     state.updateData = payload;
   }),
+  setAuthData: action((state, payload) => {
+    state.authData = payload;
+  }),
 }
 const storeModel = {
   quiz: quizModel,
