@@ -43,40 +43,23 @@ class ProfileClass extends React.Component {
     this.state = {
       displayName: "Loading...",
       photoURL: "",
-      isAuthenticated: false,
     }
 
     this.handleLogout = this.handleLogout.bind(this);
   }
-  _isMounted = false // memory leak stuff
   componentDidMount() {
-    this._isMounted = true
-    if (this._isMounted) {
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          this.setState({
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            isAuthenticated: true,
-            firedLogout: false
-          })
-        }
-      })
-    }
+    const user = auth.currentUser;
+    if (user) {
 
-  }
-  componentWillUnmount() {
-    this._isMounted = false
+      this.setState({ displayName: user.displayName, photoURL: user.photoURL })
+    }
   }
   handleLogout(e) {
-    if (this._isMounted) {
-      auth.signOut().then(function () {
-        console.log("Signed out successfully....")
-      }).catch(function (error) {
-        console.log(error)
-      });
-    }
-
+    auth.signOut().then(function () {
+      console.log("Signed out successfully....")
+    }).catch(function (error) {
+      console.log(error)
+    });
   }
   render() {
     if (auth.currentUser == null) return <Redirect to="/login" />

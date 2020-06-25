@@ -36,7 +36,6 @@ function FuncDashboard() {
       .max(20)
       .required("No of questions is a required field")
   });
-
   return (
     <div className="dashboard-container">
       <div className="grad-bg">
@@ -72,9 +71,7 @@ function FuncDashboard() {
                   <ModalHeader>Name your quiz</ModalHeader>
                   <ModalCloseButton />
                   <ModalBody>
-
-
-                    <Field name="quizName">
+                  <Field name="quizName">
                       {({ field, form }) => {
                         return (
                           <FormControl isInvalid={form.errors.quizName && form.touched.quizName} isRequired>

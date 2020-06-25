@@ -1,19 +1,44 @@
 import { action, thunk } from "easy-peasy";
 import { auth, db } from "./config/firebaseConfig";
+import shortid from "shortid";
 
 const quizModel = {
   quizName: '',
+  quizId: '',
   noOfQuestions: 5,
   data: [],
+  quizSubmittedSuccessfully: false,
   setQuizName: action((state, payload) => {
     state.quizName = payload;
+    state.quizId = shortid.generate();
   }),
   setNoOfQuestions: action((state, payload) => {
     state.noOfQuestions = payload;
   }),
+  setQuizSubmittedSuccessfully: action((state, payload) => {
+    state.quizSubmittedSuccessfully = payload;
+  }),
   setQuizData: action((state, payload) => {
     state.data.push(payload);
   }),
+  sendQuestionsToFirestore: thunk((actions, { quizName, data, noOfQuestions, quizId }) => {
+    db.ref(`users/${auth.currentUser.uid}/${quizId}`).set({
+      quizId,
+      quizName,
+      data,
+      noOfQuestions,
+    }, (err) => {
+      if (err) {
+        console.log(err);
+        actions.setQuizSubmittedSuccessfully(false);
+      }
+      else {
+        actions.setQuizSubmittedSuccessfully(true);
+        console.log("Saved Successfully");
+       
+      }
+    })
+  })
 }
 
 const userModel = {
@@ -27,19 +52,10 @@ const userModel = {
       .then((res) => {
         console.log(res);
         actions.setAuthData(res);
-
-        db.collection("userCred").add({
+        db.ref('users_data/' + res.user.uid).set({
           email: email,
-          pass: password,
-          created_at: new Date()
-        })
-          .then((docRef) => {
-            console.log(docRef);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-
+          password: password
+        });
       })
       .catch((error) => {
         actions.setError(error);
